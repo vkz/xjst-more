@@ -1,0 +1,42 @@
+{
+    "name": "xjst-more",
+    "description": "Compile more templates, possibly on the client.",
+    "version": "0.0.1",
+    "homepage": "",
+    "author": "",
+    "contributors": [
+        ""
+    ],
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "main": "./lib/more",
+    "directories": {
+        "lib": "./lib"
+    },
+    "bin": {
+        "xjstmore": "./bin/xjstmore"
+    },
+    "dependencies": {
+        "esprima": "~1.1.1",
+        "estraverse": "~1.5.0",
+        "xjst": ">=1.5.0",
+        "uglify-js": "~2.3.2"
+    },
+    "devDependencies": {
+        "bem-xjst": ">=0.9.0",
+        "mocha": "~1.12.1"
+    },
+    "engines": {
+        "node": ">=0.4.0"
+    },
+    "licenses": [
+        {
+            "type": "AS IS"
+        }
+    ],
+    "scripts": {
+        "test": "mocha --slow 600 --growl --reporter spec test/*-test.js"
+    }
+}
