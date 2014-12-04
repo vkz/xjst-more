@@ -1,23 +1,17 @@
 var more = require('..');
 var assert = require('assert');
 var bemxjst = require("bem-xjst");
-var xjst = require("xjst");
 
 describe('Client templating', function() {
-
-  // more.generate: 
-  //  @templates, 
-  //  @options, 
-  //  @result_of_previous_generation 
-  //  -> result,
-  // where result maybe a compiler instance or an ast, or {ast: ast, compiler: compiler}
 
   function test(fn1, fn2, options) {
     if (!options) options = {};
     var templates = fn2.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fn1.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
+    var result1 = more.generate(templates);
+    var result = more.generateMore(moreTemplates, result1.ir);
     assert.equal(
-      more.generate(moreTemplates, options, more.generate(templates, options, null)),
+      result.out,
       bemxjst.generate(templates + '\n' + moreTemplates, options));
   }
 
