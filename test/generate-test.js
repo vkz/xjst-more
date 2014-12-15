@@ -4,7 +4,7 @@ var bemxjst = require("bem-xjst");
 
 describe('Client templating', function() {
 
-  function test(fn, fnMore, options, data, expected) {
+  function test(fn, fnMore, options) {
     if (!options) options = {};
     var templates = fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
