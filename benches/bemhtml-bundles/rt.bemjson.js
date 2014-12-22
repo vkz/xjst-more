@@ -1,4 +1,4 @@
-({
+{
     "block": "page",
     "mods": {
         "category": "hotels"
@@ -7777,4 +7777,4 @@
             "mods": {}
         }
     ]
-})
+}
