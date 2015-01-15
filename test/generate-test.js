@@ -10,7 +10,7 @@ describe('Client templating', function() {
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var compiler = new more.Compiler();
     var result1 = compiler.generate(templates);
-    var result = compiler.generate(moreTemplates, result1.ir);
+    var result = compiler.generate(moreTemplates, result1);
     var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
 
     assert.equal(
@@ -27,7 +27,7 @@ describe('Client templating', function() {
 
     var compiler = new more.Compiler();
     var result1 = compiler.generate(templates);
-    var result = compiler.compile(moreTemplates, result1.ir);
+    var result = compiler.compile(moreTemplates, result1);
 
     expected = expected || 
       bemxjst
