@@ -1,6 +1,6 @@
 var more = require('..');
 var assert = require('assert');
-var bemxjst = require("bem-xjst");
+var bemxjst = require('bem-xjst');
 
 describe('Client templating', function() {
 
@@ -10,7 +10,8 @@ describe('Client templating', function() {
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var compiler = new more.Compiler();
     var result1 = compiler.generate(templates);
-    var result = compiler.generate(moreTemplates, result1);
+    var client = new more.Client(result1);
+    var result = compiler.send(moreTemplates, client)
     var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
 
     assert.equal(
@@ -27,7 +28,8 @@ describe('Client templating', function() {
 
     var compiler = new more.Compiler();
     var result1 = compiler.generate(templates);
-    var result = compiler.compile(moreTemplates, result1);
+    var client = new more.Client(result1);
+    var result = compiler.sendAndCompile(moreTemplates, client);
 
     expected = expected || 
       bemxjst
