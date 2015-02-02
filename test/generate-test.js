@@ -8,9 +8,9 @@ describe('Client templating', function() {
     if (!options) options = {};
     var templates = fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
-    var compiler = new more.Compiler();
+    var compiler = new more.Compiler(options);
     var result1 = compiler.generate(templates);
-    var client = new more.Client(result1);
+    var client = new more.Client(result1, options);
     var result = compiler.sendGenerate(moreTemplates, client)
     var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
 
@@ -26,9 +26,9 @@ describe('Client templating', function() {
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
 
-    var compiler = new more.Compiler();
+    var compiler = new more.Compiler(options);
     var result1 = compiler.generate(templates);
-    var client = new more.Client(result1);
+    var client = new more.Client(result1, options);
     var result = compiler.sendCompile(moreTemplates, client);
 
     expected = expected || 
