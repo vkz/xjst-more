@@ -11,7 +11,7 @@ describe('Client templating', function() {
     var compiler = new more.Compiler();
     var result1 = compiler.generate(templates);
     var client = new more.Client(result1);
-    var result = compiler.send(moreTemplates, client)
+    var result = compiler.sendGenerate(moreTemplates, client)
     var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
 
     assert.equal(
@@ -29,7 +29,7 @@ describe('Client templating', function() {
     var compiler = new more.Compiler();
     var result1 = compiler.generate(templates);
     var client = new more.Client(result1);
-    var result = compiler.sendAndCompile(moreTemplates, client);
+    var result = compiler.sendCompile(moreTemplates, client);
 
     expected = expected || 
       bemxjst
