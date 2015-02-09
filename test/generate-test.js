@@ -8,14 +8,15 @@ describe('Client templating', function() {
     if (!options) options = {};
     var templates = fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
-    var compiler = new more.Compiler(options);
-    var result1 = compiler.generate(templates);
-    var client = new more.Client(result1, options);
-    var result = (new more.Server(options)).sendGenerate(moreTemplates, client);
+    // var compiler = new more.Compiler(options);
+    var client = new more.Client(options);
+    var server = new more.Server(options);
+    var result1 = server.sendGenerate(templates, client);
+    var result2 = server.sendGenerate(moreTemplates, client);
     var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
 
     assert.equal(
-      result.out,
+      result2.out,
       bemxjstResult);
   }
 
@@ -26,17 +27,17 @@ describe('Client templating', function() {
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
 
-    var compiler = new more.Compiler(options);
-    var result1 = compiler.generate(templates);
-    var client = new more.Client(result1, options);
-    var result = new more.Server(options).sendCompile(moreTemplates, client);
-
+    var client = new more.Client(options);
+    var server = new more.Server(options);
+    var result1 = server.sendGenerate(templates, client);
+    var result2 = server.sendCompile(moreTemplates, client);
+ 
     expected = expected || 
       bemxjst
       .compile(templates + ';\n' + moreTemplates, options)
       .apply.call(data || {});
     
-    assert.equal(result.apply.call(data || {}), expected);
+    assert.equal(result2.apply.call(data || {}), expected);
   }
 
   it('Should generate the same result as bem-xjst on a single chunk of templates', function () {
