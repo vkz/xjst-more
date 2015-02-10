@@ -11,8 +11,8 @@ describe('Client templating', function() {
     // var compiler = new more.Compiler(options);
     var client = new more.Client(options);
     var server = new more.Server(options);
-    var result1 = server.sendGenerate(templates, client);
-    var result2 = server.sendGenerate(moreTemplates, client);
+    var result1 = server.generate(templates, client);
+    var result2 = server.generate(moreTemplates, client);
     var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
 
     assert.equal(
@@ -29,14 +29,14 @@ describe('Client templating', function() {
 
     var client = new more.Client(options);
     var server = new more.Server(options);
-    var result1 = server.sendGenerate(templates, client);
-    var result2 = server.sendCompile(moreTemplates, client);
- 
-    expected = expected || 
+    var result1 = server.generate(templates, client);
+    var result2 = server.compile(moreTemplates, client);
+
+    expected = expected ||
       bemxjst
       .compile(templates + ';\n' + moreTemplates, options)
       .apply.call(data || {});
-    
+
     assert.equal(result2.apply.call(data || {}), expected);
   }
 
@@ -343,4 +343,3 @@ describe('Client templating', function() {
   });
 
 });
-
