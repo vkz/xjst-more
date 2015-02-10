@@ -19,7 +19,7 @@ describe('Client templating', function() {
           .send(client);
     var bemxjstResult = bemxjst
           .generate(templates + '\n' + moreTemplates, options);
-    assert.equal(result2.out, bemxjstResult);
+    assert.equal(result2, bemxjstResult);
   }
 
   function testApply(fn, fnMore, data, expected, options) {
@@ -50,7 +50,7 @@ describe('Client templating', function() {
 
     // var bemxjstResult = bemxjst
     //       .generate(templates + '\n' + moreTemplates, options);
-    // assert.equal(result2.out, bemxjstResult);
+    // assert.equal(result2, bemxjstResult);
   }
 
   it('Should generate the same result as bem-xjst on a single chunk of templates', function () {
