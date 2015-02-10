@@ -11,13 +11,15 @@ describe('Client templating', function() {
     // var compiler = new more.Compiler(options);
     var client = new more.Client(options);
     var server = new more.Server(options);
-    var result1 = server.generate(templates, client);
-    var result2 = server.generate(moreTemplates, client);
-    var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
-
-    assert.equal(
-      result2.out,
-      bemxjstResult);
+    var result1 = server
+          .generate(templates)
+          .send(client);
+    var result2 = server
+          .generate(moreTemplates)
+          .send(client);
+    var bemxjstResult = bemxjst
+          .generate(templates + '\n' + moreTemplates, options);
+    assert.equal(result2.out, bemxjstResult);
   }
 
   function testApply(fn, fnMore, data, expected, options) {
@@ -29,15 +31,26 @@ describe('Client templating', function() {
 
     var client = new more.Client(options);
     var server = new more.Server(options);
-    var result1 = server.generate(templates, client);
-    var result2 = server.compile(moreTemplates, client);
-
+    var result1 = server
+          .generate(templates)
+          .send(client);
+    var result2 = server
+          .generate(moreTemplates)
+          .send(client);
+    var result = client.compile();
     expected = expected ||
       bemxjst
       .compile(templates + ';\n' + moreTemplates, options)
       .apply.call(data || {});
 
-    assert.equal(result2.apply.call(data || {}), expected);
+    assert.equal(result.apply.call(data || {}), expected);
+
+    // TODO Both client/server and bem-xjst generate almost but not quite
+    // identical results. Probably worth getting em 100% right.
+
+    // var bemxjstResult = bemxjst
+    //       .generate(templates + '\n' + moreTemplates, options);
+    // assert.equal(result2.out, bemxjstResult);
   }
 
   it('Should generate the same result as bem-xjst on a single chunk of templates', function () {
