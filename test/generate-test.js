@@ -1,6 +1,7 @@
 var more = require('..');
 var assert = require('assert');
 var bemxjst = require('bem-xjst');
+var pp = require("zeHelpers").prettyPrint;
 
 describe('Client templating', function() {
 
@@ -49,7 +50,7 @@ describe('Client templating', function() {
     // identical results. Probably worth getting em 100% right.
 
     // var bemxjstResult = bemxjst
-    //       .generate(templates + '\n' + moreTemplates, options);
+          // .generate(templates + '\n' + moreTemplates, options);
     // assert.equal(result2, bemxjstResult);
   }
 
