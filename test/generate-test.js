@@ -25,11 +25,10 @@ describe('Client templating', function() {
 
   function testApply(fn, fnMore, data, expected, options) {
     if (!options) options = {};
-
+    // if (!options) options = { preSerialise: true };
     var templates = require('./i-bem.bemhtml') + ';\n' +
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
-
     var client = new more.Client(options);
     var server = new more.Server(options);
     var result1 = server
