@@ -2,11 +2,14 @@ var more = require('..');
 var assert = require('assert');
 var bemxjst = require('bem-xjst');
 var pp = require("zeHelpers").prettyPrint;
+var esprima = require('esprima');
+var esgen = require("escodegen").generate;
 
 describe('Client templating', function() {
 
   function test(fn, fnMore, options) {
-    if (!options) options = {};
+    // if (!options) options = {};
+    if (!options) options = { preSerialise: true };
     var templates = fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     // var compiler = new more.Compiler(options);
@@ -24,8 +27,8 @@ describe('Client templating', function() {
   }
 
   function testApply(fn, fnMore, data, expected, options) {
-    if (!options) options = {};
-    // if (!options) options = { preSerialise: true };
+    // if (!options) options = {};
+    if (!options) options = { preSerialise: true };
     var templates = require('./i-bem.bemhtml') + ';\n' +
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
@@ -43,7 +46,17 @@ describe('Client templating', function() {
       .compile(templates + ';\n' + moreTemplates, options)
       .apply.call(data || {});
 
+    // try {
+    //   assert.equal(result.apply.call(data || {}), expected);
+    // } catch (e) {
+    //   var bemxjstResult = bemxjst.generate(templates + '\n' + moreTemplates, options);
+    //   pp(result2, {prompt: "result2"});
+    //   pp(esgen(esprima.parse(bemxjstResult)), {prompt: "bemxjstResult"});
+    //   throw(e);
+    // }
+
     assert.equal(result.apply.call(data || {}), expected);
+
 
     // TODO Both client/server and bem-xjst generate almost but not quite
     // identical results. Probably worth getting em 100% right.
