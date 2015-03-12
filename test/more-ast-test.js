@@ -5,11 +5,23 @@ var pp = require("zeHelpers").prettyPrint;
 var esprima = require('esprima');
 var esgen = require("escodegen").generate;
 
-describe('Client templating', function() {
+// For each template
+// * bem-xjst generate (default)
+// * xjst-more generate from AST (more-ast)
+// * xjst-more generate from STRINGS (more-pre)
+// * (default)  apply to bemjson (default-applied)
+// * (more-ast) apply to bemjson (more-ast-applied)
+// * (more-pre) apply to bemjson (more-pre-applied)
+// * (more-ast-applied) === (default-applied) show diff on error
+// * (more-pre-applied) === (default-applied) show diff on error
+// ~ (more-ast) === (more-pre)                show diff on error
+// ~ (more-ast) === (more-pre) === (default)  show diff on error
+
+describe('Client templating (AST)', function() {
 
   function test(fn, fnMore, options) {
     // if (!options) options = {};
-    if (!options) options = { preSerialise: true };
+    if (!options) options = { preSerialise: false };
     var templates = fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     // var compiler = new more.Compiler(options);
@@ -28,7 +40,7 @@ describe('Client templating', function() {
 
   function testApply(fn, fnMore, data, expected, options) {
     // if (!options) options = {};
-    if (!options) options = { preSerialise: true };
+    if (!options) options = { preSerialise: false };
     var templates = require('./i-bem.bemhtml') + ';\n' +
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
@@ -46,6 +58,8 @@ describe('Client templating', function() {
       .compile(templates + ';\n' + moreTemplates, options)
       .apply.call(data || {});
 
+    // pp(expected, {prompt: "expected"});
+    
     // try {
     //   assert.equal(result.apply.call(data || {}), expected);
     // } catch (e) {
@@ -67,7 +81,7 @@ describe('Client templating', function() {
   }
 
   it('Should generate the same result as bem-xjst on a single chunk of templates', function () {
-    test(function () {
+    testApply(function () {
       block('attach').elem('control')(
         tag()('input'),
         attrs()(function() {
@@ -77,11 +91,20 @@ describe('Client templating', function() {
       block('attach').elem('no-file').tag()('span');
       block('attach').elem('file').tag()('span');
       block('attach').elem('text').tag()('span');
-    }, function () {})
-  });
+    }, function () {}, {
+      block: 'page',
+      content: [{
+        block: 'attach',
+        elem: 'control',
+        content: 'attach control'
+      }, {
+        block: 'attach',
+        elem: 'no-file',
+        content: 'attach no-file'
+      }]})});
 
   it('Should generate from two chunks of simple templates', function() {
-    test(function () {
+    testApply(function () {
       block('attach').elem('control')(
         tag()('input'),
         attrs()(function() {
@@ -93,8 +116,17 @@ describe('Client templating', function() {
     }, function () {
       block('attach').elem('text').tag()('span');
       block('attach').elem('clear').tag()('i');
-    });
-  });
+    }, {
+      block: 'page',
+      content: [{
+        block: 'attach',
+        elem: 'control',
+        content: 'attach control'
+      }, {
+        block: 'attach',
+        elem: 'no-file',
+        content: 'attach no-file'
+      }]});});
 
   it('Should handle redefinition', function () {
     testApply(function () {

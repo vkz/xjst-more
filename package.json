@@ -37,6 +37,6 @@
         }
     ],
     "scripts": {
-        "test": "mocha --slow 600 --growl --reporter spec test/*-test.js"
+        "test": "mocha --slow 600 --growl --reporter spec"
     }
 }
