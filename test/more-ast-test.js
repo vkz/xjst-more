@@ -58,6 +58,7 @@ describe('Client templating (AST)', function() {
       .compile(templates + ';\n' + moreTemplates, options)
       .apply.call(data || {});
 
+    // pp(result2, {prompt: "result2"});
     // pp(expected, {prompt: "expected"});
     
     // try {

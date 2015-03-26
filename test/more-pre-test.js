@@ -59,6 +59,7 @@ describe('Client templating (PRE)', function() {
       .apply.call(data || {});
 
     // pp(expected, {prompt: "expected"});
+    // pp(result2, {prompt: "result2"});
 
     // try {
     //   assert.equal(result.apply.call(data || {}), expected);
