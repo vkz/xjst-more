@@ -1,6 +1,5 @@
 var Client = require('../lib').Client;
 var Server = require('../lib').Server;
-var more = require("..");
 var utile = require("utile");
 var assert = require('assert');
 var bemxjst = require('bem-xjst');
@@ -32,7 +31,7 @@ describe('Client templating (AST)', function() {
     var templates = fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     // var compiler = new more.Compiler(options);
-    var client = new more.Client(clientOptions);
+    var client = new Client(clientOptions);
     var server = new Server(serverOptions);
     var result1 = server
           .generate(templates)
@@ -55,7 +54,7 @@ describe('Client templating (AST)', function() {
     var templates = require('./i-bem.bemhtml') + ';\n' +
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
-    var client = new more.Client(clientOptions);
+    var client = new Client(clientOptions);
     var server = new Server(serverOptions);
     var result1 = server
           .generate(templates)
