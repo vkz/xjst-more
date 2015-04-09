@@ -1,4 +1,7 @@
-var more = require('..');
+var Client = require('../lib').Client;
+var Server = require('../lib').Server;
+var more = require("..");
+
 var assert = require('assert');
 var bemxjst = require('bem-xjst');
 var pp = require("zeHelpers").prettyPrint;
@@ -26,7 +29,7 @@ describe('Client templating (PRE)', function() {
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     // var compiler = new more.Compiler(options);
     var client = new more.Client(options);
-    var server = new more.Server(options);
+    var server = new Server(options);
     var result1 = server
           .generate(templates)
           .send(client);
@@ -45,7 +48,7 @@ describe('Client templating (PRE)', function() {
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var client = new more.Client(options);
-    var server = new more.Server(options);
+    var server = new Server(options);
     var result1 = server
           .generate(templates)
           .send(client);
