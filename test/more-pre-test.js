@@ -7,18 +7,6 @@ var pp = require("zeHelpers").prettyPrint;
 var esprima = require('esprima');
 var esgen = require("escodegen").generate;
 
-// For each template
-// * bem-xjst generate (default)
-// * xjst-more generate from AST (more-ast)
-// * xjst-more generate from STRINGS (more-pre)
-// * (default)  apply to bemjson (default-applied)
-// * (more-ast) apply to bemjson (more-ast-applied)
-// * (more-pre) apply to bemjson (more-pre-applied)
-// * (more-ast-applied) === (default-applied) show diff on error
-// * (more-pre-applied) === (default-applied) show diff on error
-// ~ (more-ast) === (more-pre)                show diff on error
-// ~ (more-ast) === (more-pre) === (default)  show diff on error
-
 describe('Client templating (PRE)', function() {
 
   function test(fn, fnMore, options) {
