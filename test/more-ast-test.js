@@ -1,6 +1,7 @@
 var Client = require('../lib').Client;
 var Server = require('../lib').Server;
 var more = require("..");
+var utile = require("utile");
 var assert = require('assert');
 var bemxjst = require('bem-xjst');
 var pp = require("zeHelpers").prettyPrint;
@@ -24,11 +25,15 @@ describe('Client templating (AST)', function() {
   function test(fn, fnMore, options) {
     // if (!options) options = {};
     if (!options) options = { preSerialise: false };
+
+    var serverOptions = utile.clone(options);
+    var clientOptions = utile.clone(options);
+
     var templates = fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     // var compiler = new more.Compiler(options);
-    var client = new more.Client(options);
-    var server = new Server(options);
+    var client = new more.Client(clientOptions);
+    var server = new Server(serverOptions);
     var result1 = server
           .generate(templates)
           .send(client);
@@ -43,11 +48,15 @@ describe('Client templating (AST)', function() {
   function testApply(fn, fnMore, data, expected, options) {
     // if (!options) options = {};
     if (!options) options = { preSerialise: false };
+
+    var serverOptions = utile.clone(options);
+    var clientOptions = utile.clone(options);
+
     var templates = require('./i-bem.bemhtml') + ';\n' +
           fn.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
     var moreTemplates = fnMore.toString().replace(/^function\s*\(\)\s*{|}$/g, '');
-    var client = new more.Client(options);
-    var server = new Server(options);
+    var client = new more.Client(clientOptions);
+    var server = new Server(serverOptions);
     var result1 = server
           .generate(templates)
           .send(client);
@@ -62,7 +71,7 @@ describe('Client templating (AST)', function() {
 
     // pp(result2, {prompt: "result2"});
     // pp(expected, {prompt: "expected"});
-    
+
     // try {
     //   assert.equal(result.apply.call(data || {}), expected);
     // } catch (e) {
